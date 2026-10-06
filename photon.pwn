@@ -38539,7 +38539,7 @@ stock AccessoryShowInventory(playerid)
     }
 
     Dialog(playerid, 1190, DIALOG_STYLE_TABLIST_HEADERS,
-        "{CA5757}BEST RUSSIA {FFFFFF}| Select an accessory",
+        "{CA5757}NOWA RP {FFFFFF}| Select an accessory",
         fmt_text,
         "Select", "Close"
     );
@@ -53824,7 +53824,7 @@ stock TC_ShowUpgradeConfirm(playerid, upgrade_type)
 
 stock TC_ShowHelp(playerid)
 {
-	Dialog(playerid, DIALOG_TC_HELP, DIALOG_STYLE_MSGBOX, "{FFFF24}BLACK RUSSIA | Транспортные компании",
+	Dialog(playerid, DIALOG_TC_HELP, DIALOG_STYLE_MSGBOX, "{FFFF24}NOWA RP | Транспортные компании",
 		"{FFFFFF}Команды:\n\
 {FFFF24}/company{FFFFFF} — основное меню компании\n\
 {FFFF24}/orders{FFFFFF} — список заказов компании\n\
@@ -97912,7 +97912,7 @@ public: LoadPlayerData(playerid)
                     1);
             }
 
-			SendClientMessage(playerid, 0xFFFFFFFF, "Вы находитесь в проекте BEARS RUSSIA. Официальный канал {33CCFF}Telegram{FFFFFF} @bears_crmp");
+			SendClientMessage(playerid, 0xFFFFFFFF, "Вы находитесь в проекте NOWA RP. Официальный канал {33CCFF}Telegram{FFFFFF} @br_nowa");
 			g_BRAuthStage[playerid] = BR_AUTH_DONE;
 			printf("[AUTH][SUCCESS] player=%d account=%d new=%d sex=%d skin=%d", playerid, account_id, g_BRAuthNewAccount[playerid], GetPlayerSex(playerid), GetPlayerData(playerid, P_SKIN));
 			if(g_BRAuthNewAccount[playerid])
@@ -108511,7 +108511,7 @@ stock ShowPlayerReportDialog(playerid)
 		{FFFFFF}- отключить от сервера (kick)\n\
 		{FFFFFF}- лишить возможности писать (mute)\n\
 		{FFFFFF}- заблокировать (ban)\n\n\
-		{FFFFFF}Данные правила установлены для всех игроков {339966}RUSSIA-MOBILE.RU",
+		{FFFFFF}Данные правила установлены для всех игроков {339966}@br_nowa",
 		"Отправить", "Назад"
 	);
 }
@@ -123380,9 +123380,9 @@ CMD:licsog(playerid, params[])
 	    4. Повышение, или пополнение донат-счета возможно через сайт, либо через основателя проекта [vk.com/id568918059].. \n\
 	    если вас кто-то обманул, выдавая себя за основателей проекта. Средства возвращены не будут, а то что вы покупали.. \n\
 	    вам предоставлено не будет ! \n\
-	    5. Официальный сайт проекта > RUSSIA-MOBILE.RU | Владелец проекта - Alekseevich \n\
-	    6. Официальное сообщество проекта > VK.COM/blackrussia.online | Директор проекта - Gromov \n\
-	    7. Техническое сообщество проекта > VK.COM/TRUEE.HELP | Разработчик проекта - Oscar\n\
+	    5. Официальный TG проекта > @br_nowa | Владелец проекта - Nowarekkusu \n\
+	    6. Официальное сообщество проекта > @br_nowa | Директор проекта - Nowarekkusu \n\
+	    7. Техническое сообщество проекта > @br_nowa | Разработчик проекта - VladVide\n\
 	    8. Если вы не работаете, не отвечаете на репорты, или не отыгрываете норму будьте готовы к снятию.. \n\
 	    9. После оплаты всегда сохраняйте чеки, чтобы избежать проблем с получением донат-рублей и прочих услуг \n\
 	    10. Если пополнить аккаунт не получается, пишите владельцу проекта. Либо в тех.раздел \n\
@@ -135780,7 +135780,7 @@ case 45: // фама
             JSON_SetInt(resp, "c", 3); // count
 
             JSON_SetString(resp, "r0", "Laird FM");
-            JSON_SetString(resp, "r1", "Black Russia Radio");
+            JSON_SetString(resp, "r1", "NOWA Radio");
             JSON_SetString(resp, "r2", "Night Drive");
 
             OnPacketIncoming(playerid, 9, resp);
@@ -138858,7 +138858,7 @@ case 66:
 }
 
 
-        case 33:
+		case 33:
 {
     new JSON:response;
     new type;
@@ -138914,6 +138914,9 @@ case 66:
             new target_slot = sim_s;
             if(sim_ns > 0) target_slot = sim_ns;
 
+            // 0 — валидный слот инвентаря
+            if(target_slot < 0) target_slot = 0;
+
             new removed_sim = 0;
             new bool:sim_move_ok = Inventory11_MoveActiveSimToInventorySlot(playerid, target_slot, removed_sim);
 
@@ -138931,8 +138934,8 @@ case 66:
                 ShowNotificationNew(playerid, 3, 6, 0, 0, sim_notif, " ");
             }
 
-            printf("[INV11][SIM] generic active->inventory: player=%d type=%d ga=%d os=%d s=%d i=%d ns=%d phone=%d ok=%d",
-                playerid, type, sim_ga, sim_os, sim_s, sim_i, sim_ns, active_sim_phone, sim_move_ok);
+            printf("[INV11][SIM] generic active->inventory: player=%d type=%d ga=%d os=%d s=%d i=%d ns=%d phone=%d ok=%d target=%d",
+                playerid, type, sim_ga, sim_os, sim_s, sim_i, sim_ns, active_sim_phone, sim_move_ok, target_slot);
             active_sim_drag_handled = 1;
         }
     }
@@ -138943,7 +138946,7 @@ case 66:
     else if(Inv11Trade_HandlePacket(playerid, json, response, refresh_inventory_after_response, send_response))
     {
     }
-					else if (type == 0)
+    else if(type == 0)
     {
         new count;
         JSON_GetInt(json, "ga", item_id);
@@ -138953,7 +138956,7 @@ case 66:
         JSON_SetInt(response, "t", 0);
         JSON_SetInt(response, "s", 1);
     }
-					else if (type == 1)
+    else if(type == 1)
     {
         new count;
         JSON_GetInt(json, "ga", item_id);
@@ -138963,7 +138966,7 @@ case 66:
         JSON_SetInt(response, "t", 1);
         JSON_SetInt(response, "s", 1);
     }
-					else if (type == 4)
+    else if(type == 4)
     {
         JSON_GetInt(json, "ga", item_id);
         JSON_GetInt(json, "os", old_pos);
@@ -138972,13 +138975,20 @@ case 66:
         JSON_GetInt(json, "i", raw_active_slot);
         JSON_GetInt(json, "ns", raw_new_slot);
 
-        // SIM REMOVE REALFIX: equipped SIM can arrive as item 58, visual id 997,
-        // or with equip slot 7 reported through `i` instead of `os`.
-        if(old_pos <= 0 && raw_active_slot == 7) old_pos = 7;
-        if(pos <= 0 && raw_new_slot > 0) pos = raw_new_slot;
-        if(old_pos == 0) old_pos = 1;
-        if(pos == 0) pos = 1;
-        printf("[INV11] type=4 move request: player=%d ga=%d os=%d s=%d i=%d ns=%d", playerid, item_id, old_pos, pos, raw_active_slot, raw_new_slot);
+        printf("[INV11][RAW] type=4 player=%d ga=%d os=%d s=%d i=%d ns=%d",
+            playerid, item_id, old_pos, pos, raw_active_slot, raw_new_slot);
+
+        // SIM / active slot 7
+        if(old_pos <= 0 && raw_active_slot == 7)
+            old_pos = 7;
+        if(pos <= 0 && raw_new_slot > 0)
+            pos = raw_new_slot;
+
+        // 0 — валидная первая ячейка инвентаря (НЕ поднимаем в 1)
+        if(old_pos < 0) old_pos = 0;
+        if(pos < 0) pos = 0;
+
+        printf("[INV11][NORM] type=4 old_pos=%d pos=%d", old_pos, pos);
 
         if(item_id == 134 && old_pos == 6)
         {
@@ -138987,7 +138997,7 @@ case 66:
             JSON_SetInt(response, "s", 0);
             printf("[INV11] type=4 blocked: player=%d ga=%d reason=no_takeoff_active_slot", playerid, item_id);
         }
-					else
+        else
         {
             new bool:db_ok = false;
             new active_model = 0;
@@ -139018,7 +139028,7 @@ case 66:
                     printf("[INV11][SIM] type=4 active->inventory player=%d number=%d target_slot=%d", playerid, removed_sim, pos);
                 }
             }
-					else if(is_active_acc_move)
+            else if(is_active_acc_move)
             {
                 db_ok = Inventory11_MoveActiveAccessoryToInventorySlot(playerid, item_id, old_pos, pos, active_model);
                 if(db_ok)
@@ -139028,7 +139038,7 @@ case 66:
                     printf("[INV11] type=4 accessory moved active->inventory: player=%d item=%d active_slot=%d inv_slot=%d model=%d", playerid, item_id, old_pos, pos, active_model);
                 }
             }
-					else
+            else
             {
                 db_ok = Inventory11_SwapSlotsInDatabase(playerid, old_pos, pos);
             }
@@ -139040,22 +139050,22 @@ case 66:
             printf("[INV11] type=4 result: player=%d ga=%d os=%d s=%d db_ok=%d", playerid, item_id, old_pos, pos, db_ok);
         }
     }
-					else if (type == 5)
+    else if(type == 5)
     {
         JSON_GetInt(json, "ga", item_id);
         JSON_GetInt(json, "s", pos);
-        if(pos == 0) pos = 1;
+        if(pos < 0) pos = 0;
         new count;
         JSON_GetInt(json, "i", count);
         JSON_SetInt(response, "t", 5);
         JSON_SetInt(response, "s", 1);
         JSON_SetInt(response, "w", new_w);
     }
-					else if (type == 18)
+    else if(type == 18)
     {
         JSON_GetInt(json, "ga", item_id);
         JSON_GetInt(json, "s", pos);
-        if(pos == 0) pos = 1;
+        if(pos < 0) pos = 0;
 
         new bool:db_ok = Inventory11_DeleteSlotFromDatabase(playerid, pos);
 
@@ -139070,11 +139080,12 @@ case 66:
         JSON_SetInt(response, "w", new_w);
         printf("[INV11] type=18 delete result: player=%d ga=%d slot=%d db_ok=%d", playerid, item_id, pos, db_ok);
     }
-					else if (type == 19)
+    else if(type == 19)
     {
         JSON_GetInt(json, "ga", item_id);
         JSON_GetInt(json, "s", pos);
-        if(pos == 0) pos = 1;
+        if(pos < 0) pos = 0;
+
         new req_old_slot = -1;
         JSON_GetInt(json, "os", req_old_slot);
         printf("[INV11] type=19 request raw: player=%d ga=%d os=%d s=%d", playerid, item_id, req_old_slot, pos);
@@ -139084,7 +139095,7 @@ case 66:
             req_old_slot = pos;
         }
 
-        if(item_id == 134 && req_old_slot > 0)
+        if(item_id == 134 && req_old_slot >= 0)
         {
             pos = req_old_slot;
             printf("[INV11] type=19 use os as source slot: player=%d slot=%d", playerid, pos);
@@ -139116,7 +139127,7 @@ case 66:
                 ShowNotificationNew(playerid, 3, 6, 0, 0, "Вы использовали аптечку. Здоровье пополнено на 60 единиц", " ");
             }
         }
-					else if(item_id == INV_ITEM_REPAIR_KIT)
+        else if(item_id == INV_ITEM_REPAIR_KIT)
         {
             JSON_SetInt(response, "t", 19);
 
@@ -139162,7 +139173,7 @@ case 66:
                 }
             }
         }
-					else if(item_id == 58)
+        else if(item_id == 58)
         {
             new sim_number = 0;
             new current_number = GetPlayerPhone(playerid);
@@ -139174,12 +139185,12 @@ case 66:
                 JSON_SetInt(response, "s", 0);
                 ShowNotificationNew(playerid, 2, 6, 0, 0, "Сначала нужно приобрести телефон", " ");
             }
-					else if(!Inventory11_GetSimBySlot(playerid, pos, sim_number))
+            else if(!Inventory11_GetSimBySlot(playerid, pos, sim_number))
             {
                 JSON_SetInt(response, "s", 0);
                 ShowNotificationNew(playerid, 2, 6, 0, 0, "Не удалось прочитать SIM-карту", " ");
             }
-					else
+            else
             {
                 new query_check[128];
                 mysql_format(mysql, query_check, sizeof(query_check), "SELECT id FROM accounts WHERE phone = %d AND id != %d LIMIT 1", sim_number, GetPlayerAccountID(playerid));
@@ -139192,7 +139203,7 @@ case 66:
                     JSON_SetInt(response, "s", 0);
                     ShowNotificationNew(playerid, 2, 6, 0, 0, "Этот номер уже занят", " ");
                 }
-					else
+                else
                 {
                     new bool:inventory_ok = false;
 
@@ -139222,7 +139233,7 @@ case 66:
                 }
             }
         }
-					else if(Inventory11_IsPlateItem(item_id))
+        else if(Inventory11_IsPlateItem(item_id))
         {
             JSON_SetInt(response, "t", 19);
 
@@ -139257,7 +139268,7 @@ case 66:
                         JSON_SetInt(response, "s", 0);
                         ShowNotificationNew(playerid, 2, 6, 0, 0, "Нажмите использовать еще раз для установки", " ");
                     }
-					else
+                    else
                     {
                         DeletePVar(playerid, PVAR_PLATE_CONFIRM_SLOT);
                         DeletePVar(playerid, PVAR_PLATE_CONFIRM_ITEM);
@@ -139269,7 +139280,7 @@ case 66:
                             JSON_SetInt(response, "s", 0);
                             ShowNotificationNew(playerid, 2, 6, 0, 0, "Не удалось прочитать номер из инвентаря", " ");
                         }
-    					else
+                        else
                         {
                             if(!PlateTypeUsesRegion(plate_type))
                             {
@@ -139300,7 +139311,7 @@ case 66:
                                 JSON_SetInt(response, "s", 0);
                                 ShowNotificationNew(playerid, 2, 6, 0, 0, "Номер установлен, но предмет не удален", " ");
                             }
-        					else
+                            else
                             {
                                 JSON_SetInt(response, "s", 1);
                                 JSON_SetInt(response, "w", Inventory11_GetCurrentWeightKg(playerid));
@@ -139319,17 +139330,13 @@ case 66:
 
             new source_slot = pos;
 
-            // Client can send s=0 for first slot; support both legacy slot=0 and 0-based payload.
-            if(source_slot < 0 || !Inventory11_HasInventoryItemInSlot(playerid, source_slot, item_id))
+            // 0 — валидный слот. Ищем только если в указанном слоте предмета нет.
+            if(source_slot < 0)
+                source_slot = 0;
+
+            if(!Inventory11_HasInventoryItemInSlot(playerid, source_slot, item_id))
             {
-                if(source_slot == 0 && Inventory11_HasInventoryItemInSlot(playerid, 1, item_id))
-                {
-                    source_slot = 1;
-                }
-					else
-                {
-                    source_slot = Inventory11_FindFirstItemSlotById(playerid, item_id);
-                }
+                source_slot = Inventory11_FindFirstItemSlotById(playerid, item_id);
             }
 
             if(source_slot < 0)
@@ -139338,7 +139345,7 @@ case 66:
                 ShowNotificationNew(playerid, 2, 6, 0, 0, "Не найден аксессуар в инвентаре", " ");
                 printf("[INV11][ERROR] type=19 accessory source slot not found: player=%d item=%d req_slot=%d", playerid, item_id, pos);
             }
-					else
+            else
             {
                 new active_slot = 0;
                 new accessory_modelid = 0;
@@ -139347,7 +139354,7 @@ case 66:
                 {
                     JSON_SetInt(response, "s", 0);
                 }
-					else
+                else
                 {
                     new bool:db_ok = Inventory11_DeleteSlotFromDatabase(playerid, source_slot);
                     if(!db_ok)
@@ -139356,7 +139363,7 @@ case 66:
                         ShowNotificationNew(playerid, 2, 6, 0, 0, "Аксессуар надет, но не удален из инвентаря", " ");
                         printf("[INV11][ERROR] type=19 accessory delete failed after equip: player=%d item=%d inv_slot=%d active_slot=%d model=%d", playerid, item_id, source_slot, active_slot, accessory_modelid);
                     }
-					else
+                    else
                     {
                         JSON_SetInt(response, "s", 1);
                         JSON_SetInt(response, "c", 1);
@@ -139384,7 +139391,7 @@ case 66:
                 }
             }
         }
-					else if(item_id == 134 || item_id == 122) // Skin items
+        else if(item_id == 134 || item_id == 122) // Skin items
         {
             if(GetPlayerData(playerid, P_JAILFSIN) > 0)
             {
@@ -139394,75 +139401,75 @@ case 66:
                 ShowNotificationNew(playerid, 2, 6, 0, 0,
                     "Во время срока нельзя переодеваться", "");
             }
-            else             if(GetPVarInt(playerid, "Form") || IsPlayerInJob(playerid) || GetPlayerTempJob(playerid) != TEMP_JOB_NONE || GetPlayerData(playerid, P_CASINO_JOB) != 0)
+            else if(GetPVarInt(playerid, "Form") || IsPlayerInJob(playerid) || GetPlayerTempJob(playerid) != TEMP_JOB_NONE || GetPlayerData(playerid, P_CASINO_JOB) != 0)
             {
                 JSON_SetInt(response, "t", 19);
                 JSON_SetInt(response, "s", 0);
                 ShowNotificationNew(playerid, 2, 6, 0, 0,
                     "Сначала закончите рабочий день и снимите форму в раздевалке", "");
             }
-					else
+            else
             {
-            new modelid = -1;
-
-            if(item_id == 134)
-            {
-                printf("[INV11] type=19 parsed payload: {\"ga\":%d,\"os\":%d,\"s\":%d,\"t\":19}", item_id, req_old_slot, pos);
-                modelid = GetInventory11SkinModelByPos(playerid, pos);
-            }
-
-            if(modelid == -1)
-            {
-                for (new i = 0; i < sizeof(SkinMapping); i++)
-                {
-                    if (SkinMapping[i][0] == item_id)
-                    {
-                        modelid = SkinMapping[i][1];
-                        break;
-                    }
-                }
-            }
-
-            if (modelid != -1 && IsValidSkinModel(modelid))
-            {
-                new old_model = GetPlayerSkin(playerid);
-                SetPlayerSkin(playerid, modelid);
-                SetPlayerData(playerid, P_SKIN, modelid);
-                UpdatePlayerDatabaseInt(playerid, "skin", modelid);
-
-                JSON_SetInt(response, "t", 19);
-                JSON_SetInt(response, "s", 1);
-                JSON_SetInt(response, "ps", modelid);
-
-                Inventory11_SetAiArrayOnJson(playerid, response);
-                JSON_SetInt(response, "i", 6);
-
-                new_w -= GetItemWeight(item_id);
-                if(new_w < 0) new_w = 0;
-                JSON_SetInt(response, "w", new_w);
+                new modelid = -1;
 
                 if(item_id == 134)
                 {
-                    new bool:moved_back_ok = Inventory11_MoveSkinToInventorySlot(playerid, pos, old_model);
-                    printf("[INV11] type=19 swap result: player=%d selected_slot=%d new_model=%d old_model=%d moved_back_ok=%d", playerid, pos, modelid, old_model, moved_back_ok);
+                    printf("[INV11] type=19 parsed payload: {\"ga\":%d,\"os\":%d,\"s\":%d,\"t\":19}", item_id, req_old_slot, pos);
+                    modelid = GetInventory11SkinModelByPos(playerid, pos);
                 }
 
-                Inventory11_SendSkinUpdatePacket(playerid, modelid);
-                Action(playerid, "переоделся.");
-                ShowNotificationNew(playerid, 3, 6, 0, 0, "Вы успешно переоделись.", " ");
-                printf("[INV11] type=19 success: player=%d model=%d slot=%d", playerid, modelid, pos);
-            }
-					else
-            {
-                JSON_SetInt(response, "t", 19);
-                JSON_SetInt(response, "s", 0);
-                format(notif, sizeof(notif), "Ошибка: Неверный ID скина %d", item_id);
-                ShowNotificationNew(playerid, 2, 4, 0, 0, notif, "");
-                printf("[INV11][ERROR] type=19 invalid model: player=%d ga=%d resolved_model=%d slot=%d", playerid, item_id, modelid, pos);
-            }
+                if(modelid == -1)
+                {
+                    for(new i = 0; i < sizeof(SkinMapping); i++)
+                    {
+                        if(SkinMapping[i][0] == item_id)
+                        {
+                            modelid = SkinMapping[i][1];
+                            break;
+                        }
+                    }
+                }
+
+                if(modelid != -1 && IsValidSkinModel(modelid))
+                {
+                    new old_model = GetPlayerSkin(playerid);
+                    SetPlayerSkin(playerid, modelid);
+                    SetPlayerData(playerid, P_SKIN, modelid);
+                    UpdatePlayerDatabaseInt(playerid, "skin", modelid);
+
+                    JSON_SetInt(response, "t", 19);
+                    JSON_SetInt(response, "s", 1);
+                    JSON_SetInt(response, "ps", modelid);
+
+                    Inventory11_SetAiArrayOnJson(playerid, response);
+                    JSON_SetInt(response, "i", 6);
+
+                    new_w -= GetItemWeight(item_id);
+                    if(new_w < 0) new_w = 0;
+                    JSON_SetInt(response, "w", new_w);
+
+                    if(item_id == 134)
+                    {
+                        new bool:moved_back_ok = Inventory11_MoveSkinToInventorySlot(playerid, pos, old_model);
+                        printf("[INV11] type=19 swap result: player=%d selected_slot=%d new_model=%d old_model=%d moved_back_ok=%d", playerid, pos, modelid, old_model, moved_back_ok);
+                    }
+
+                    Inventory11_SendSkinUpdatePacket(playerid, modelid);
+                    Action(playerid, "переоделся.");
+                    ShowNotificationNew(playerid, 3, 6, 0, 0, "Вы успешно переоделись.", " ");
+                    printf("[INV11] type=19 success: player=%d model=%d slot=%d", playerid, modelid, pos);
+                }
+                else
+                {
+                    JSON_SetInt(response, "t", 19);
+                    JSON_SetInt(response, "s", 0);
+                    format(notif, sizeof(notif), "Ошибка: Неверный ID скина %d", item_id);
+                    ShowNotificationNew(playerid, 2, 4, 0, 0, notif, "");
+                    printf("[INV11][ERROR] type=19 invalid model: player=%d ga=%d resolved_model=%d slot=%d", playerid, item_id, modelid, pos);
+                }
             }
         }
-					else
+        else
         {
             new_w -= GetItemWeight(item_id);
             if(new_w < 0) new_w = 0;
@@ -139471,37 +139478,37 @@ case 66:
             JSON_SetInt(response, "w", new_w);
         }
     }
-					else if (type == 11)
+    else if(type == 11)
     {
         ShowPlayerStats(playerid);
         JSON_SetInt(response, "t", 11);
         JSON_SetInt(response, "s", 1);
     }
-					else if (type == 12)
+    else if(type == 12)
     {
         callcmd::donate(playerid);
         JSON_SetInt(response, "t", 12);
         JSON_SetInt(response, "s", 1);
     }
-					else if (type == 13)
+    else if(type == 13)
     {
         ShowPlayerDialog_Example(playerid);
         JSON_SetInt(response, "t", 13);
         JSON_SetInt(response, "s", 1);
     }
-					else if (type == 14)
+    else if(type == 14)
     {
         ShowNotificationNew(playerid, 2, 6, 0, 0, "В разработке", " ");
         JSON_SetInt(response, "t", 14);
         JSON_SetInt(response, "s", 1);
     }
-					else if (type == 35)
+    else if(type == 35)
     {
         callcmd::reward(playerid);
         JSON_SetInt(response, "t", 35);
         JSON_SetInt(response, "s", 1);
     }
-					else if (type == 23)
+    else if(type == 23)
     {
         JSON_GetInt(json, "ga", item_id);
         JSON_GetInt(json, "os", old_pos);
@@ -139509,10 +139516,21 @@ case 66:
         new raw_active_slot = -1, raw_new_slot = -1;
         JSON_GetInt(json, "i", raw_active_slot);
         JSON_GetInt(json, "ns", raw_new_slot);
-        if(old_pos <= 0 && raw_active_slot == 7) old_pos = 7;
-        if(pos <= 0 && raw_new_slot > 0) pos = raw_new_slot;
-        if(old_pos == 0) old_pos = 1;
-        if(pos == 0) pos = 1;
+
+        printf("[INV11][RAW] type=23 player=%d ga=%d os=%d s=%d i=%d ns=%d",
+            playerid, item_id, old_pos, pos, raw_active_slot, raw_new_slot);
+
+        // SIM / active slot 7
+        if(old_pos <= 0 && raw_active_slot == 7)
+            old_pos = 7;
+        if(pos <= 0 && raw_new_slot > 0)
+            pos = raw_new_slot;
+
+        // 0 — валидная первая ячейка (НЕ поднимаем в 1)
+        if(old_pos < 0) old_pos = 0;
+        if(pos < 0) pos = 0;
+
+        printf("[INV11][NORM] type=23 old_pos=%d pos=%d", old_pos, pos);
 
         new bool:db_ok = false;
         new active_model = 0;
@@ -139537,7 +139555,7 @@ case 66:
                 printf("[INV11][SIM] type=23 active->inventory player=%d number=%d target_slot=%d", playerid, removed_sim, pos);
             }
         }
-					else if(is_active_acc_move)
+        else if(is_active_acc_move)
         {
             db_ok = Inventory11_MoveActiveAccessoryToInventorySlot(playerid, item_id, old_pos, pos, active_model);
             if(db_ok)
@@ -139547,7 +139565,7 @@ case 66:
                 printf("[INV11] type=23 accessory moved active->inventory: player=%d item=%d active_slot=%d inv_slot=%d model=%d", playerid, item_id, old_pos, pos, active_model);
             }
         }
-					else
+        else
         {
             db_ok = Inventory11_SwapSlotsInDatabase(playerid, old_pos, pos);
         }
@@ -139557,11 +139575,11 @@ case 66:
         JSON_SetInt(response, "i", (is_active_sim_move && db_ok) ? 7 : pos);
         printf("[INV11] type=23 result: player=%d ga=%d os=%d s=%d db_ok=%d", playerid, item_id, old_pos, pos, db_ok);
     }
-					else if (type == 24)
+    else if(type == 24)
     {
         JSON_GetInt(json, "ga", item_id);
         JSON_GetInt(json, "s", pos);
-        if(pos == 0) pos = 1;
+        if(pos < 0) pos = 0;
 
         new bool:db_ok = Inventory11_DeleteSlotFromDatabase(playerid, pos);
         JSON_SetInt(response, "t", 24);
@@ -139569,7 +139587,7 @@ case 66:
         JSON_SetInt(response, "w", new_w);
         printf("[INV11] type=24 result: player=%d ga=%d slot=%d db_ok=%d", playerid, item_id, pos, db_ok);
     }
-					else
+    else
     {
         JSON_SetInt(response, "t", type);
         JSON_SetInt(response, "s", 0);
@@ -139582,12 +139600,15 @@ case 66:
             JSON_SetInt(response, "w", Inventory11_GetCurrentWeightKg(playerid));
         }
     }
+
     if(send_response)
     {
         OnPacketIncoming(playerid, 33, response);
     }
+
     JSON_Cleanup(response);
     response = 0;
+
     if(refresh_inventory_after_response)
     {
         Inventory11(playerid);
@@ -139598,37 +139619,102 @@ case 66:
         {
             new t, i;
 
-            JSON_GetInt(JSONObject, "t", t);
-            JSON_GetInt(JSONObject, "i", i);
+            t = 0;
+            i = 0;
+            JSON_GetInt(json, "t", t);
+            JSON_GetInt(json, "i", i);
 
-            // Tablet tile order from the supplied GUI APK.
+            // Служебные пакеты клиента — не трогаем
+            if(t == -1)
+            {
+                new JSON:ack = JSON_Object();
+                JSON_SetInt(ack, "i", 1);
+                OnPacketIncoming(playerid, 14, ack);
+                JSON_Cleanup(ack);
+                return 1;
+            }
+
             switch(t)
             {
-                case 0, 1, 2, 3, 5, 13, 17:
+                case 0:
                 {
-                    ShowNotificationNew(playerid, 2, 5, 0, 0, "Функция находится в разработке.", " ");
+                    callcmd::gps(playerid, "");
                 }
-                case 4: callcmd::donate(playerid);
-                case 6: { /* The working mining applet is handled by the client. */ }
-                case 7: callcmd::inv(playerid, "");
-                case 8: callcmd::market(playerid, "");
-                case 9: callcmd::promo(playerid, "");
-                case 10: callcmd::car(playerid, "");
-                case 11: callcmd::gps(playerid, "");
-                case 12: callcmd::familymenuinternal(playerid);
-                case 14: callcmd::anim(playerid, "");
-                case 15: callcmd::mm(playerid, "");
-                case 16: callcmd::report(playerid, "");
+                case 1:
+                {
+                    ShowNotificationNew(playerid, 2, 5, 0, 0, "1 кейс", " ");
+                }
+                case 2:
+                {
+                    callcmd::mm(playerid, "");
+                }
+                case 3:
+                {
+                    ShowNotificationNew(playerid, 2, 5, 0, 0, "3 кейс", " ");
+                }
+                case 5:
+                {
+                    callcmd::anim(playerid, "");
+                }
+                case 13:
+                {
+                    ShowNotificationNew(playerid, 2, 5, 0, 0, "13 кейс", " ");
+                }
+                case 17:
+                {
+                    ShowNotificationNew(playerid, 2, 5, 0, 0, "17 кейс", " ");
+                }
+                case 4:
+                {
+                    callcmd::inv(playerid);
+                }
+                case 6:
+                {
+                    callcmd::donate(playerid);
+                }
+                case 7:
+                {
+                    callcmd::car(playerid, "");
+                }
+                case 8:
+                {
+                    callcmd::promo(playerid, "");
+                }
+                case 9:
+                {
+                    callcmd::report(playerid, "");
+                }
+                case 10:
+                {
+                    callcmd::car(playerid, "");
+                }
+                case 11:
+                {
+                    callcmd::call(playerid, "");
+                }
+                case 12:
+                {
+                    callcmd::familymenuinternal(playerid);
+                }
+                case 14:
+                {
+                    callcmd::anim(playerid, "");
+                }
+                case 15:
+                {
+                    ShowNotificationNew(playerid, 2, 5, 0, 0, "Временно неоступно", " ");
+                }
+                case 16:
+                {
+                    Marketplace_OpenGUI(playerid);
+                }
             }
+
             new JSON:json_packet_data = JSON_Object();
             JSON_SetInt(json_packet_data, "i", 1);
-
-            new outcoming_data[256];
-            JSON_Stringify(json_packet_data, outcoming_data);
-
             OnPacketIncoming(playerid, 14, json_packet_data);
-
             JSON_Cleanup(json_packet_data);
+            return 1;
         }
 
 		case 1:
@@ -163598,7 +163684,7 @@ CMD:cont(playerid)
 
 stock StartCont()
 {
-    print("=== Доставка контейнеров в порт | SILE RUSSIA ===");
+    print("=== Доставка контейнеров в порт | NOWA RP ===");
     StopCont();
     for(new cont=1; cont <= MAX_CONT; cont++)
     {
@@ -165969,9 +166055,3 @@ stock RaceStyle_SetOccupantsEnvironment(vehicleid, worldid, interiorid)
 #include "../include/system/smi_system.inc"
 #include "../include/system/sto.inc"
 
-
-// Автор слива @werkston @cykcs @studiophoton
-// Автор слива @werkston @cykcs @studiophoton
-// Автор слива @werkston @cykcs @studiophoton
-// Автор слива @werkston @cykcs @studiophoton
-// Автор слива @werkston @cykcs @studiophoton
